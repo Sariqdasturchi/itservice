@@ -13,12 +13,14 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/autoplay'
 import logo from './assets/logo.webp'
+import { link } from 'fs'
 
 const App: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [visible, setVisible] = useState(false)
+  const [hoveredIndex, setHoveredIndex] = useState(null)
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -104,7 +106,7 @@ const App: React.FC = () => {
           <div className='flex items-center'>
             <a
               href='#home'
-              className='text-2xl font-bold text-blue-600 flex justify-center items-center gap-2'
+              className='text-2xl font-bold text-[#009bd8] flex justify-center items-center gap-2'
             >
               <img src={logo} alt='Ustozweb' className='w-20' />
               <span className='ml-[-20px]'>UstozWeb</span>
@@ -135,7 +137,9 @@ const App: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className={`md:hidden mr-5 hover:text-blue-600 cursor-pointer ${isScrolled ? 'text-black' : 'text-white'}`}
+            className={`md:hidden mr-5 hover:text-blue-600 cursor-pointer ${
+              isScrolled ? 'text-black' : 'text-white'
+            }`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <i
@@ -185,7 +189,7 @@ const App: React.FC = () => {
             backgroundPosition: 'center'
           }}
         >
-          <div className='absolute inset-0 bg-gradient-to-r from-white/90 via-white/80 to-transparent'></div>
+          <div className='absolute inset-0 bg-gradient-to-r from-white/90 via-white/75 to-transparent'></div>
           <div className='container mx-auto px-4 md:px-6 relative z-10'>
             <div className='max-w-2xl'>
               <h1 className='text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 mb-6'>
@@ -323,9 +327,9 @@ const App: React.FC = () => {
               </p>
             </div>
 
-            <Tabs defaultValue='all' className='mb-12'>
-              <div className='flex justify-center'>
-                <TabsList>
+            <Tabs defaultValue='all' className='mb-12 w-full'>
+              <div className='w-[90%] h-auto mx-auto flex  justify-center'>
+                <TabsList className='w-full h-12 flex flex-wrap mx-auto'>
                   <TabsTrigger
                     value='all'
                     className='!rounded-button whitespace-nowrap'
@@ -445,7 +449,7 @@ const App: React.FC = () => {
         </section>
 
         {/* About Us Section */}
-        <section id='about' className='py-20 bg-gray-50'>
+        <section id='about' className='py-20 bg-gray-50 '>
           <div className='container mx-auto px-4 md:px-6'>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
               <div>
@@ -510,7 +514,7 @@ const App: React.FC = () => {
         </section>
 
         {/* Testimonials Section */}
-        <section id='testimonials' className='py-20'>
+        <section id='testimonials' className='py-20 '>
           <div className='container mx-auto px-4 md:px-6'>
             <div className='text-center mb-16'>
               <Badge className='mb-3 bg-blue-100 text-blue-700 hover:bg-blue-100'>
@@ -629,7 +633,7 @@ const App: React.FC = () => {
         </section>
 
         {/* Contact Section */}
-        <section id='contact' className='py-20 bg-gray-50'>
+        <section id='contact' className='py-20 bg-gray-50 '>
           <div className='container mx-auto px-4 md:px-6'>
             <div className='text-center mb-16'>
               <Badge className='mb-3 bg-blue-100 text-blue-700 hover:bg-blue-100'>
@@ -727,7 +731,7 @@ const App: React.FC = () => {
                         <div>
                           <p className='font-medium'>Address</p>
                           <p className='text-gray-600'>
-                            123 Tech Street, Digital City, 10001
+                            Samarqand shahar universitet xiyoboni 15-uy
                           </p>
                         </div>
                       </div>
@@ -746,7 +750,7 @@ const App: React.FC = () => {
                         </div>
                         <div>
                           <p className='font-medium'>Phone</p>
-                          <p className='text-gray-600'>+1 (555) 123-4567</p>
+                          <p className='text-gray-600'>+998 (50) 703-0123</p>
                         </div>
                       </div>
                       <div className='flex items-start'>
@@ -769,15 +773,31 @@ const App: React.FC = () => {
                     <h3 className='text-2xl font-bold mb-6'>Connect With Us</h3>
                     <div className='flex space-x-4'>
                       {[
-                        { icon: 'fa-facebook-f', color: 'bg-[#3b5998]' },
-                        { icon: 'fa-twitter', color: 'bg-[#1da1f2]' },
-                        { icon: 'fa-linkedin-in', color: 'bg-[#0077b5]' },
-                        { icon: 'fa-instagram', color: 'bg-[#e1306c]' },
-                        { icon: 'fa-telegram-plane', color: 'bg-[#0088cc]' }
+                        {
+                          icon: 'fa-telegram-plane',
+                          link: 'https://t.me/ustozweb',
+                          color: 'bg-[#0088cc]'
+                        },
+                        {
+                          icon: 'fa-youtube',
+                          link: 'https://youtube.com/@sariqdasturchi',
+                          color: 'bg-[#FF0000]'
+                        },
+                        {
+                          icon: 'fa-linkedin-in',
+                          link: 'https://linkedin.com/in/suhrobbozorov/',
+                          color: 'bg-[#0077b5]'
+                        },
+                        {
+                          icon: 'fa-instagram',
+                          link: 'https://instagram.com/ustozweb/',
+                          color: 'bg-[#e1306c]'
+                        }
                       ].map((social, index) => (
                         <a
                           key={index}
-                          href='#'
+                          href={social.link}
+                          target='_blank'
                           className={`h-12 w-12 rounded-full ${social.color} text-white flex items-center justify-center hover:opacity-90 transition-opacity cursor-pointer`}
                         >
                           <i className={`fab ${social.icon}`}></i>
@@ -792,7 +812,7 @@ const App: React.FC = () => {
         </section>
       </main>
       {/* Footer */}
-      <footer className='bg-gray-900 text-white pt-16 pb-8'>
+      <footer className='bg-gray-900 text-white pt-16 pb-8 '>
         <div className='container mx-auto px-4 md:px-6'>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12'>
             <div>
@@ -807,17 +827,46 @@ const App: React.FC = () => {
               </p>
               <div className='flex space-x-4'>
                 {[
-                  { icon: 'fa-facebook-f' },
-                  { icon: 'fa-twitter' },
-                  { icon: 'fa-linkedin-in' },
-                  { icon: 'fa-instagram' }
+                  {
+                    icon: 'fa-telegram',
+                    link: 'https://t.me/ustozweb/',
+                    color: '#0088CC'
+                  },
+                  {
+                    icon: 'fa-youtube',
+                    link: 'https://youtube.com/@sariqdasturchi',
+                    color: '#FF0000'
+                  },
+                  {
+                    icon: 'fa-linkedin-in',
+                    link: 'https://linkedin.com/in/suhrobbozorov/',
+                    color: '#0A66C2'
+                  },
+                  {
+                    icon: 'fa-instagram',
+                    link: 'https://instagram.com/ustozweb/',
+                    color: '#E1306C'
+                  }
                 ].map((social, index) => (
                   <a
                     key={index}
-                    href='#'
-                    className='h-10 w-10 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors cursor-pointer'
+                    href={social.link}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='h-10 w-10 rounded-full text-gray-400 flex items-center justify-center transition-colors cursor-pointer'
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    style={{
+                      backgroundColor:
+                        hoveredIndex === index ? social.color : '#1f2937' // Tailwind: bg-gray-800
+                    }}
                   >
-                    <i className={`fab ${social.icon}`}></i>
+                    <i
+                      className={`fab ${social.icon} text-lg`}
+                      style={{
+                        color: hoveredIndex === index ? '#ffffff' : '#9ca3af'
+                      }}
+                    />
                   </a>
                 ))}
               </div>
